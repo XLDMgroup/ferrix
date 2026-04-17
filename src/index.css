@@ -9,6 +9,8 @@
   --border-color: #eeeeee;
   --accent-color: #000000;
   --accent-invert: #ffffff;
+  --brand-trust: #0057aa;
+  --brand-danger: #e74c3c;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,6 +23,8 @@
     --border-color: #2a2a2a;
     --accent-color: #f4f4f5;
     --accent-invert: #000000;
+    --brand-trust: #0057aa;
+    --brand-danger: #ef4444;
   }
 }
 

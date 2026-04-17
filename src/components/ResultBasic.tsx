@@ -67,7 +67,7 @@ export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
         
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
           <div style={{ display: 'flex', width: 'fit-content', alignItems: 'center', padding: '0.75rem 1.5rem', backgroundColor: 'var(--bg-color)', border: '1px solid var(--border-color)', borderRadius: '30px' }}>
-            <Award size={18} style={{ marginRight: '10px', color: 'var(--text-primary)' }} />
+            <Award size={18} style={{ marginRight: '10px', color: '#0057aa' }} />
             <span style={{ fontSize: '0.95rem', color: 'var(--text-primary)', fontWeight: 700 }}>유사한 모델: {result.similarFigures}</span>
           </div>
         </div>
@@ -106,7 +106,7 @@ export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
                   <div style={{ 
                     width: `${r.A}%`, 
                     height: '100%', 
-                    backgroundColor: 'var(--text-primary)',
+                    backgroundColor: '#0057aa',
                     borderRadius: '10px'
                   }} />
                 </div>
@@ -155,7 +155,7 @@ export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
               <div style={{ 
                 minWidth: '28px', 
                 height: '28px', 
-                backgroundColor: 'var(--text-primary)', 
+                backgroundColor: '#0057aa', 
                 color: 'var(--bg-color)', 
                 borderRadius: '50%', 
                 display: 'flex', 
@@ -194,7 +194,7 @@ export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
 
       {/* Reality Check */}
       <div style={{ marginBottom: '4rem', padding: '2rem', backgroundColor: 'var(--bg-color)', border: '2px solid var(--text-primary)', borderRadius: '16px' }}>
-        <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '10px', color: '#e74c3c' }}>
           <AlertTriangle size={20} />
           지금 당장 고쳐야 할 약점
         </h3>
@@ -213,7 +213,7 @@ export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
         marginBottom: '2rem',
         boxShadow: '0 10px 30px rgba(0,0,0,0.05)'
       }}>
-        <div style={{ display: 'inline-flex', padding: '0.8rem', backgroundColor: 'var(--text-primary)', color: 'var(--bg-color)', borderRadius: '50%', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'inline-flex', padding: '0.8rem', backgroundColor: '#0057aa', color: 'var(--bg-color)', borderRadius: '50%', marginBottom: '1.5rem' }}>
           <Compass size={32} />
         </div>
         <h3 style={{ fontSize: '1.4rem', fontWeight: 900, color: 'var(--text-primary)', marginBottom: '1rem', letterSpacing: '-0.5px', wordBreak: 'keep-all' }}>

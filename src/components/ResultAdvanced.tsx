@@ -54,11 +54,11 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
   };
 
   const statColors: Record<string, string> = {
-    F: '#2ecc71', // 긍정적 그린 계열
-    P: '#e74c3c', // 역동적 레드 계열
-    B: '#9b59b6', // 인프라/환경 퍼플 계열
-    E: '#3498db', // 전문성 블루 계열
-    Fr: '#f1c40f' // 리버티 옐로우 계열
+    F: '#0057aa', // 유입/시스템 블루
+    P: '#0057aa', 
+    B: '#0057aa', 
+    E: '#0057aa', 
+    Fr: '#0057aa'
   };
 
   return (
@@ -115,7 +115,7 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
           <p style={{ fontSize: '1.2rem', fontWeight: 800, margin: 0 }}>
             {rankData.desc}
           </p>
-          <p style={{ fontSize: '0.9rem', fontWeight: 700, opacity: 0.9, color: '#ffd700' }}>
+          <p style={{ fontSize: '0.9rem', fontWeight: 700, opacity: 0.9, color: '#0057aa' }}>
             {rankData.percentileKorea} (대한민국 상위 기준)
           </p>
         </div>
@@ -167,15 +167,15 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
                 <div style={{
                   width: '100%',
                   height: isActive ? '14px' : '8px',
-                  backgroundColor: isActive ? 'var(--text-primary)' : isPast ? 'var(--text-secondary)' : 'var(--border-color)',
+                  backgroundColor: isActive ? '#0057aa' : isPast ? 'var(--text-secondary)' : 'var(--border-color)',
                   borderRadius: '10px',
                   transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                  boxShadow: isActive ? '0 0 15px rgba(0,0,0,0.1)' : 'none'
+                  boxShadow: isActive ? '0 0 15px rgba(0,87,170,0.2)' : 'none'
                 }} />
                 <span style={{ 
                   fontSize: '0.75rem', 
                   fontWeight: isActive ? 900 : 600, 
-                  color: isActive ? 'var(--text-primary)' : 'var(--text-tertiary)',
+                  color: isActive ? '#0057aa' : 'var(--text-tertiary)',
                   transform: isActive ? 'scale(1.2)' : 'scale(1)',
                   transition: 'all 0.3s ease'
                 }}>
@@ -196,9 +196,9 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
           gap: '10px',
           border: '1px dashed var(--border-color)'
         }}>
-          <TrendingUp size={16} style={{ color: 'var(--text-primary)' }} />
+          <TrendingUp size={16} style={{ color: '#0057aa' }} />
           <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: 600, margin: 0 }}>
-            시스템 최적화 시 <strong style={{ color: 'var(--text-primary)' }}>{RANK_ORDER[currentRankIdx + 1] ?? '최고 등급'}</strong> 도달 가능성이 매우 높습니다.
+            시스템 최적화 시 <strong style={{ color: '#0057aa' }}>{RANK_ORDER[currentRankIdx + 1] ?? '최고 등급'}</strong> 도달 가능성이 매우 높습니다.
           </p>
         </div>
       </div>
@@ -463,8 +463,8 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
         </h3>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div style={{ padding: '1.2rem', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--text-primary)', borderRadius: '10px' }}>
-            <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>■ 행동을 즉각 전환했을 때</div>
+          <div style={{ padding: '1.2rem', backgroundColor: 'var(--bg-secondary)', border: '1px solid #0057aa', borderRadius: '10px' }}>
+            <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0057aa', marginBottom: '0.5rem' }}>■ 행동을 즉각 전환했을 때</div>
             {/* @ts-ignore */}
             <p style={{ fontSize: '0.9rem', lineHeight: 1.6, color: 'var(--text-secondary)', margin: 0 }}>
               {rankData.futureScenarioGood}
@@ -487,7 +487,7 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
         marginBottom: '4rem',
         padding: '2rem',
         backgroundColor: '#111',
-        borderLeft: '4px solid #F4F4F5',
+        borderLeft: '4px solid #0057aa',
         borderRadius: '0 12px 12px 0'
       }}>
         <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#F4F4F5', marginBottom: '1rem', letterSpacing: '0px' }}>
