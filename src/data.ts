@@ -487,6 +487,30 @@ export const PART2_QUESTIONS = [
       { text: "선택지가 매우 비좁고, 어쩔 수 없이 매일 원치 않는 상황과 사람에 끌려다닌다.", val: 15 },
       { text: "단 1%의 자율권도 없이 고통스러운 단일 환경과 타인의 구속 속에 갇혀 있다.", val: 10 }
     ]
+  },
+  {
+    id: 'B1',
+    type: 'choice',
+    text: "성장을 지원해주는 경제적/가정적 배경(태생적 자본) 수준은 어떠한가요?",
+    options: [
+      { text: "압도적인 자산가 집안으로, 태생적으로 최상위 인프라와 지원이 보장되어 있다.", val: 50 },
+      { text: "경제적 여유가 있어 실패해도 다시 일어설 수 있으며 충분한 지원을 받는다.", val: 40 },
+      { text: "평범한 가정으로, 성인이 되기 전까지 기초적인 지원을 받으며 자랐다.", val: 25 },
+      { text: "지원은커녕 스스로 완전히 자립해야 하며, 가족 내 경제적 제약이 많다.", val: 15 },
+      { text: "부채를 물려받거나 극히 열악한 빈곤 환경 속에서 매일 생계를 걱정하며 자랐다.", val: 5 }
+    ]
+  },
+  {
+    id: 'B2',
+    type: 'choice',
+    text: "현재 본인을 둘러싼 물리적, 인적 인프라 환경은?",
+    options: [
+      { text: "국내외 상위 1%만이 접근 가능한 최상급 교육 및 독점적 네트워킹 환경 속에 속해 있다.", val: 50 },
+      { text: "우수한 커뮤니티와 질 높은 교육, 양질의 인간관계를 자연스럽게 맺을 수 있는 훌륭한 학군(직군)이다.", val: 40 },
+      { text: "대한민국 평균 수준의 무난한 거주 환경과 보편적인 사람들과 교류하고 있다.", val: 25 },
+      { text: "성장을 가로막는 제약이 많고, 질 높은 정보나 사람을 만나기엔 매우 척박한 환경이다.", val: 15 },
+      { text: "물리적, 정신적으로 나를 갉아먹는 최악의 유해 환경 속에 방치되어 있다.", val: 5 }
+    ]
   }
 ];
 
@@ -494,49 +518,67 @@ export const calculateRank = (answers: Record<string, any>) => {
   const age = Number(answers.AGE) || 20;
   const job = answers.JOB || 'OTHER';
 
-  const fScore = (Number(answers.F1) || 5) + (Number(answers.F2) || 5); // Max 110
-  const pScore = (Number(answers.P1) || 10) + (Number(answers.P2) || 10); // Max 100
-  const eScore = (Number(answers.E1) || 10) + (Number(answers.E2) || 10); // Max 100
-  const frScore = (Number(answers.Fr1) || 10) + (Number(answers.Fr2) || 10); // Max 100
+  const fScoreRaw = (Number(answers.F1) || 5) + (Number(answers.F2) || 5); // Max 110
+  const pScoreRaw = (Number(answers.P1) || 10) + (Number(answers.P2) || 10); // Max 100
+  const eScoreRaw = (Number(answers.E1) || 10) + (Number(answers.E2) || 10); // Max 100
+  const frScoreRaw = (Number(answers.Fr1) || 10) + (Number(answers.Fr2) || 10); // Max 100
+  const bScoreRaw = (Number(answers.B1) || 5) + (Number(answers.B2) || 5); // Max 100
 
-  // 나이와 직업 기반의 가중치(Weight) 분배. 영향력(S)을 제외하고 E와 Fr 비중 강화.
-  let wF = 0.20, wP = 0.30, wE = 0.30, wFr = 0.20; 
+  // 100점 만점으로 정규화 (스탯바 렌더링용)
+  const detailedScores = {
+    F: Math.min((fScoreRaw / 100) * 100, 100),
+    P: Math.min((pScoreRaw / 100) * 100, 100),
+    E: Math.min((eScoreRaw / 100) * 100, 100),
+    Fr: Math.min((frScoreRaw / 100) * 100, 100),
+    B: Math.min((bScoreRaw / 100) * 100, 100),
+  };
+
+  // 나이와 직업 기반의 가중치(Weight) 분배. 환경(B) 지표 추가 편입.
+  let wF = 0.20, wP = 0.20, wE = 0.25, wFr = 0.15, wB = 0.20; 
 
   if (age < 20 || job === 'STUDENT') {
-    // 10대 및 학생: 자산보다 학업과 체력의 성장 가능성에 가중치
+    // 10대 및 학생: 자신이 일군 자산(F) 가중치 대폭 축소, 환경(B) 및 학업/전문성(E)에 비중
     wF = 0.05; 
-    wP = 0.35;
-    wE = 0.45; // 전문성(학업)
-    wFr = 0.15;
+    wP = 0.25;
+    wE = 0.35; 
+    wFr = 0.10;
+    wB = 0.25;
   } else if (age >= 20 && age < 30) {
     wF = 0.20;
-    wP = 0.30;
-    wE = 0.35;
-    wFr = 0.15;
-  } else if (age >= 30 && age < 40) {
-    wF = 0.40;
-    wP = 0.20;
+    wP = 0.25;
     wE = 0.25;
     wFr = 0.15;
+    wB = 0.15;
+  } else if (age >= 30 && age < 40) {
+    wF = 0.35;
+    wP = 0.20;
+    wE = 0.25;
+    wFr = 0.10;
+    wB = 0.10;
   } else if (age >= 40) {
-    wF = 0.50;
+    // 40대 이상: 본인 자산 능력이 무엇보다 핵심이 되며, 부모/과거 환경 영향력 축소
+    wF = 0.45;
     wP = 0.15;
     wE = 0.20;
     wFr = 0.15;
+    wB = 0.05;
   }
 
   // 총점 계산
-  let finalScore = (fScore * wF) + (pScore * wP) + (eScore * wE) + (frScore * wFr);
-  // 학생 직업군의 경우 자산 가중치가 낮아 최종 점수가 과도하게 떨어지는 것을 보정 (Potential Bonus)
-  if (job === 'STUDENT') {
-    finalScore = finalScore * 1.15; 
-  }
+  let finalScore = (fScoreRaw * wF) + (pScoreRaw * wP) + (eScoreRaw * wE) + (frScoreRaw * wFr) + (bScoreRaw * wB);
+  
+  // 학생 직업군 페널티 보정
+  if (job === 'STUDENT') finalScore *= 1.1; 
 
   let rank = 'D';
   let desc = '변화가 절실한 베이스 캠프 (Under-Dog)';
   let advice = "객관적인 수치 지표가 하위권에 머물러 있습니다. 이 등급은 당신의 한계를 뜻하는 것이 아니라, 당신이 아직 삶의 우선순위를 재정립하지 못했음을 뜻합니다. 내일 아침 가장 낡은 습관 하나를 끊어내는 것부터 시작하십시오. 체력이나 기술력 중 하나만 돌파점을 찾아내도 단기간에 치솟을 수 있습니다.";
   let percentileGlobal = "Bottom 40%";
   let percentileKorea = "하위 40%";
+  
+  let relatablePersona = "유튜브와 SNS로 남의 화려한 인생만 보며 대리 만족과 현실 도피를 반복함. 머리로는 '이렇게 살면 안 되는데' 하면서 내일로 미루는 습관이 뼈에 새겨져 있음.";
+  let futureScenarioGood = "즉각 환경을 통제하고 독하게 체력을 길러내면, 남들보다 3배 빨리 성장하는 무서운 잠재력을 터뜨릴 수 있습니다.";
+  let futureScenarioBad = "지금처럼 타협하면 1년 뒤에도 이 테스트를 다시 보며 자기합리화를 반복하는 제자리 걸음일 뿐입니다.";
 
   if (finalScore >= 92) {
     rank = 'SSS';
@@ -544,31 +586,57 @@ export const calculateRank = (answers: Record<string, any>) => {
     advice = "당신의 지표는 이미 통계를 넘어선 이레귤러 수준입니다. 이 압도적 성취는 요행이 아니라 당신이 만들어낸 지독한 시스템의 결과입니다. 더 이상의 소모적인 경쟁보다는 철옹성 같은 해자를 구축하고, 당신의 경험을 세상을 이끄는 가치로 환원하십시오.";
     percentileGlobal = "Top 0.1%";
     percentileKorea = "상위 0.1%";
+    relatablePersona = "남들이 위기를 논할 때 기회를 선점하는 지독한 실행력의 소유자. 한 마디 말보다 결과와 시스템으로 증명하며, 일상 자체가 완벽히 설계되어 있어 압박감을 놀이처럼 즐깁니다.";
+    futureScenarioGood = "자본과 명예의 선순환 고리가 완성되어, 당신의 이름 하나만으로 시장에 룰을 강제하는 메가 브랜드로 진화합니다.";
+    futureScenarioBad = "성취감 부재로 인한 심리적 번아웃 혹은 뜻밖의 오만함이 유일한 변수입니다. 방어선을 잃지 않도록 주의하세요.";
   } else if (finalScore >= 80) {
     rank = 'S';
     desc = '상위 1% 실력과 환경의 리더 (Alpha)';
     advice = "강력한 자본력과 전문성으로 최상위권의 삶을 확립하셨습니다. SSS급 진입을 위해선 단순히 '능력이 좋다'를 넘어서, 당신 스스로가 시장과 조직의 룰을 제정하는 권한을 가져야 합니다. 하나의 판을 흔들 압도적인 도전을 구상해 보십시오.";
     percentileGlobal = "Top 1%";
     percentileKorea = "상위 1%";
+    relatablePersona = "조직이나 시장 내에서 명백한 에이스 대우를 받음. 여유가 흐르며 실전에서 강하지만, 완벽주의 성향 때문에 작은 결함에 극도로 예민하거나 불필요한 번아웃에 시달릴 때가 있습니다.";
+    futureScenarioGood = "과감한 결단력 한 번으로 독립된 생태계를 구축하여 SSS급의 영역에 무난히 깃발을 꽂게 될 것입니다.";
+    futureScenarioBad = "조직이나 타이틀이 주는 안정감에 흠뻑 젖어 현실에 안주하다, 시장의 판이 바뀔 때 튕겨나갈 작은 리스크가 존재합니다.";
   } else if (finalScore >= 65) {
     rank = 'A';
     desc = '탄탄하고 독보적인 우수 역량자 (High-Performer)';
     advice = "사회적으로 안정되고 우수한 지표의 궤도를 달리고 있습니다. 여기서 매몰되지 마십시오. 당신은 언제든 조직의 그늘 밖에서도 먹고살 수 있는 자생력을 키워야 합니다. 본인의 독자적인 브랜드와 자원을 최적화하면 자유도가 급격히 상승할 것입니다.";
     percentileGlobal = "Top 10%";
     percentileKorea = "상위 10%";
+    relatablePersona = "누가 봐도 성실하게 제 몫을 해내며 인정받지만, 가슴 한편엔 '내가 진짜 원하는 삶인가?' 하는 본질적 결핍이 남아있는 유형. 늘 시간이 부족하다고 느낍니다.";
+    futureScenarioGood = "사이드 프로젝트나 투자 등 본인만의 레버리지를 터뜨려 수입의 파이프라인이 2배 이상 펌핑되는 구간에 접어듭니다.";
+    futureScenarioBad = "다람쥐 쳇바퀴 같은 일상에 매몰되어, 이 정도면 됐지라며 자기 합리화 속 성장이 멈출 수 있습니다.";
   } else if (finalScore >= 45) {
     rank = 'B';
     desc = '강력한 J커브를 앞둔 잠재력 (Potential)';
     advice = "충분한 체력과 능력을 지녔으나 에너지가 다소 분산되어 폭발력을 내지 못하고 있습니다. 일상의 낭비 효율만 재조정하고 목표를 단일화한다면 폭발적인 J커브 상승 곡선에 올라타 상위 궤도로 직행할 것입니다.";
     percentileGlobal = "Top 30%";
     percentileKorea = "상위 30%";
+    relatablePersona = "무언가 해야 한다는 강박은 뚜렷하지만 실행력과 지속성이 뒷받침되지 않아 작심삼일을 밥 먹듯 함. 가끔 삘받으면 엄청난 능력을 보입니다.";
+    futureScenarioGood = "낭비되는 시간 도둑을 잡아내고 뾰족한 무기 하나를 선택해 파고든다면 1년 후 A급 이상으로 수직 상승합니다.";
+    futureScenarioBad = "애매한 동기부여만 찾으며 책이나 영상을 소비하는 데 그치면, 내년에도 정확히 이 점수에 머물 것입니다.";
   } else if (finalScore >= 25) {
     rank = 'C';
     desc = '도약의 문턱에 선 표준 모델 (Normie)';
     advice = "대한민국 표준 분포 한가운데에 서 있습니다. 이 현상 유지 패턴을 깨부수지 못하면 장기적인 기회비용을 잃게 됩니다. 모든 것을 무난하게 잘하려 하지 말고, 오직 당신만의 '날카로운 무기'가 될 단 한 영역에 시간과 에너지를 편중시키십시오.";
     percentileGlobal = "Top 60%";
     percentileKorea = "상위 60%";
+    relatablePersona = "성장에 목마르지만 진짜 압박은 피하려 함. 남들만큼은 살고 싶어서 흉내는 내지만, 압도적인 시간 투자는 주저하는 타입.";
+    futureScenarioGood = "가장 만만한 습관 하나를 완전히 뜯어고친 뒤 무서운 탄력을 받아 잠재력이 개방될 수 있습니다.";
+    futureScenarioBad = "평범함에 안주했다가 예상치 못하게 찾아오는 경제적 체력적 타격을 무방비 상태로 맞이할 수 있습니다.";
   }
 
-  return { score: finalScore, rank, desc, advice, percentileGlobal, percentileKorea };
+  return { 
+    score: finalScore, 
+    rank, 
+    desc, 
+    advice, 
+    percentileGlobal, 
+    percentileKorea,
+    relatablePersona,
+    futureScenarioGood,
+    futureScenarioBad,
+    detailedScores 
+  };
 };

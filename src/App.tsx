@@ -115,7 +115,7 @@ function App() {
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', marginBottom: '3rem', lineHeight: 1.6 }}>
             나의 기본 유형 결과만 바로 확인하시겠습니까?<br />
-            아니면 11개의 <strong>현실 수준(자산, 피지컬, 권력 등) 심층 진단</strong>을 추가해 종합적인 조언을 확인하시겠습니까?
+            아니면 11개의 <strong>현실 수준(자산, 피지컬, 성장 환경 등) 심층 진단</strong>을 추가해 종합적인 조언을 확인하시겠습니까?
           </p>
           
           <button 

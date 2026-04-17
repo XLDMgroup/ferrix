@@ -13,6 +13,23 @@ const RANK_ORDER = ['D', 'C', 'B', 'A', 'S', 'SSS'];
 export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedProps) => {
   const currentRankIdx = RANK_ORDER.indexOf(rankData.rank);
 
+  // 세부 스탯 바를 위한 데이터 매핑
+  const statLabels: Record<string, string> = {
+    F: '자본력',
+    P: '신체·활력',
+    B: '성장 환경',
+    E: '전문성',
+    Fr: '자유도'
+  };
+
+  const statColors: Record<string, string> = {
+    F: '#2ecc71', // 긍정적 그린 계열
+    P: '#e74c3c', // 역동적 레드 계열
+    B: '#9b59b6', // 인프라/환경 퍼플 계열
+    E: '#3498db', // 전문성 블루 계열
+    Fr: '#f1c40f' // 리버티 옐로우 계열
+  };
+
   return (
     <div className="fade-in" style={{ paddingBottom: '4rem', marginTop: '1rem' }}>
 
@@ -297,9 +314,64 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
         </p>
       </div>
 
+      {/* Detailed Stat Bars (New) */}
+      <div style={{
+        marginTop: '2rem',
+        padding: '1.5rem',
+        backgroundColor: 'var(--bg-secondary)',
+        border: '1px solid var(--border-color)',
+        borderRadius: '12px'
+      }}>
+        <h4 style={{ fontSize: '1rem', fontWeight: 800, marginBottom: '1.5rem', color: 'var(--text-primary)' }}>
+          <Command size={18} style={{ display: 'inline', verticalAlign: 'sub', marginRight: '6px' }} />
+          5대 심층 스탯 분석
+        </h4>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+          {['F', 'P', 'B', 'E', 'Fr'].map((key) => {
+            // @ts-ignore
+            const score = Math.round(rankData.detailedScores?.[key] || 0);
+            return (
+              <div key={key}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)' }}>{statLabels[key]}</span>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: statColors[key] }}>{score} / 100</span>
+                </div>
+                <div style={{ width: '100%', height: '10px', backgroundColor: 'var(--border-color)', borderRadius: '10px', overflow: 'hidden' }}>
+                  <div style={{ 
+                    width: `${score}%`, 
+                    height: '100%', 
+                    backgroundColor: statColors[key],
+                    borderRadius: '10px',
+                    transition: 'width 1s ease-in-out'
+                  }} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Relatable Persona (New Fact-Violence Section) */}
+      <div style={{
+        marginTop: '2rem',
+        padding: '1.5rem',
+        backgroundColor: '#1a1a1a',
+        borderRadius: '12px',
+        borderLeft: '4px solid var(--text-primary)',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.05)'
+      }}>
+        <h4 style={{ fontSize: '0.9rem', fontWeight: 800, color: '#f39c12', marginBottom: '0.8rem', letterSpacing: '0.5px' }}>
+          [분석] 당신과 같은 등급 사람들의 특징
+        </h4>
+        {/* @ts-ignore */}
+        <p style={{ fontSize: '0.95rem', lineHeight: 1.6, color: '#f1f2f6', fontWeight: 500, margin: 0, wordBreak: 'keep-all' }}>
+          "{rankData.relatablePersona}"
+        </p>
+      </div>
+
       {/* Actionable System */}
-      <div style={{ marginBottom: '5rem' }}>
-        <h3 style={{ fontSize: '1.5rem', fontWeight: 900, marginBottom: '0.75rem', display: 'flex', alignItems: 'center' }}>
+      <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginTop: '3rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center' }}>
           <Crosshair size={28} style={{ marginRight: '10px' }} />
           지금 바로 실천할 행동 3가지
         </h3>
@@ -346,8 +418,36 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
             </div>
           ))}
         </div>
+
+      {/* 1 Year Scenario (New) */}
+      <div style={{
+        marginTop: '3rem',
+        marginBottom: '3rem'
+      }}>
+        <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '1.5rem' }}>
+          ⏳ 1년 뒤 시나리오 예측
+        </h3>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div style={{ padding: '1.2rem', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--text-primary)', borderRadius: '10px' }}>
+            <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>🔥 행동을 즉각 전환했을 때</div>
+            {/* @ts-ignore */}
+            <p style={{ fontSize: '0.9rem', lineHeight: 1.6, color: 'var(--text-secondary)', margin: 0 }}>
+              {rankData.futureScenarioGood}
+            </p>
+          </div>
+
+          <div style={{ padding: '1.2rem', backgroundColor: 'var(--bg-color)', border: '1px dashed #e74c3c', borderRadius: '10px' }}>
+            <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#e74c3c', marginBottom: '0.5rem' }}>💀 현재에 안주했을 때</div>
+            {/* @ts-ignore */}
+            <p style={{ fontSize: '0.9rem', lineHeight: 1.6, color: 'var(--text-tertiary)', margin: 0 }}>
+              {rankData.futureScenarioBad}
+            </p>
+          </div>
+        </div>
       </div>
 
+      {/* Final Button */}
       <button 
         onClick={onRestart}
         style={{
