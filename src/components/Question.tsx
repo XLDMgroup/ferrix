@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface QuestionProps {
   title: string;
@@ -15,6 +15,10 @@ export const Question = ({ title, question, currentNumber, totalNumber, maxSelec
   const [selected, setSelected] = useState<number[]>([]);
   const [numberVal, setNumberVal] = useState<string>('');
   const progress = (currentNumber / totalNumber) * 100;
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   const toggleOption = (idx: number) => {
     if (maxSelect === 1) {
