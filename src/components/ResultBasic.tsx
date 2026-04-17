@@ -185,7 +185,7 @@ export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
         </div>
         
         <div style={{ backgroundColor: '#111', borderRadius: '16px', padding: '1.75rem', border: '1px solid #333' }}>
-          <div style={{ display: 'flex', alignItems: 'center', fontWeight: 800, marginBottom: '1rem', color: '#fff', fontSize: '1rem', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', fontWeight: 800, marginBottom: '1rem', color: '#F4F4F5', fontSize: '1rem', gap: '8px' }}>
             <TrendingUp size={18} /> 반드시 극복할 함정
           </div>
           <p style={{ color: '#ccc', lineHeight: 1.6, fontWeight: 500, fontSize: '0.95rem' }}>{result.trap}</p>

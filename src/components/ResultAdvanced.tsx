@@ -329,7 +329,7 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
           <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, fontWeight: 500, fontSize: '0.95rem' }}>{result.idealEnvironment}</p>
         </div>
         <div style={{ backgroundColor: '#111', borderRadius: '16px', padding: '1.75rem', border: '1px solid #333' }}>
-          <div style={{ display: 'flex', alignItems: 'center', fontWeight: 800, marginBottom: '1rem', color: '#fff', fontSize: '1rem', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', fontWeight: 800, marginBottom: '1rem', color: '#F4F4F5', fontSize: '1rem', gap: '8px' }}>
             <TrendingUp size={18} />
             반드시 극복할 함정
           </div>
@@ -487,10 +487,10 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
         marginBottom: '4rem',
         padding: '2rem',
         backgroundColor: '#111',
-        borderLeft: '4px solid #fff',
+        borderLeft: '4px solid #F4F4F5',
         borderRadius: '0 12px 12px 0'
       }}>
-        <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fff', marginBottom: '1rem', letterSpacing: '0px' }}>
+        <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#F4F4F5', marginBottom: '1rem', letterSpacing: '0px' }}>
           당신의 궁극적 지향점에 대한 조언
         </h3>
         {/* @ts-ignore */}
