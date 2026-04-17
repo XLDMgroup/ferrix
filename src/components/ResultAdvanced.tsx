@@ -425,12 +425,12 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
         marginBottom: '3rem'
       }}>
         <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '1.5rem' }}>
-          ⏳ 1년 뒤 시나리오 예측
+          1년 뒤 시나리오 예측
         </h3>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div style={{ padding: '1.2rem', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--text-primary)', borderRadius: '10px' }}>
-            <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>🔥 행동을 즉각 전환했을 때</div>
+            <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>■ 행동을 즉각 전환했을 때</div>
             {/* @ts-ignore */}
             <p style={{ fontSize: '0.9rem', lineHeight: 1.6, color: 'var(--text-secondary)', margin: 0 }}>
               {rankData.futureScenarioGood}
@@ -438,13 +438,31 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
           </div>
 
           <div style={{ padding: '1.2rem', backgroundColor: 'var(--bg-color)', border: '1px dashed #e74c3c', borderRadius: '10px' }}>
-            <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#e74c3c', marginBottom: '0.5rem' }}>💀 현재에 안주했을 때</div>
+            <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#e74c3c', marginBottom: '0.5rem' }}>■ 현재에 안주했을 때</div>
             {/* @ts-ignore */}
             <p style={{ fontSize: '0.9rem', lineHeight: 1.6, color: 'var(--text-tertiary)', margin: 0 }}>
               {rankData.futureScenarioBad}
             </p>
           </div>
         </div>
+      </div>
+
+      {/* WANT Goal Advisory (New) */}
+      <div style={{
+        marginTop: '2rem',
+        marginBottom: '4rem',
+        padding: '2rem',
+        backgroundColor: '#111',
+        borderLeft: '4px solid #fff',
+        borderRadius: '0 12px 12px 0'
+      }}>
+        <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fff', marginBottom: '1rem', letterSpacing: '0px' }}>
+          당신의 궁극적 지향점에 대한 Ferrix의 마지막 직언
+        </h3>
+        {/* @ts-ignore */}
+        <p style={{ fontSize: '1rem', lineHeight: 1.7, color: '#e0e0e0', fontWeight: 500, margin: 0 }}>
+          {rankData.wantAdvice}
+        </p>
       </div>
 
       {/* Final Button */}
