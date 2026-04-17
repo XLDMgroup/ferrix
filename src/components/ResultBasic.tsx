@@ -1,6 +1,8 @@
-import { Award, Star, AlertTriangle, Lightbulb, Layers, Command, TrendingUp } from 'lucide-react';
+import { Award, Star, AlertTriangle, Lightbulb, Layers, Command, TrendingUp, Download } from 'lucide-react';
 import { type ResultType } from '../data';
 import { RadarChartComp } from './RadarChartComp';
+import { useRef, useState } from 'react';
+import html2canvas from 'html2canvas';
 
 interface ResultBasicProps {
   result: ResultType;
@@ -8,9 +10,38 @@ interface ResultBasicProps {
 }
 
 export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
+  const captureRef = useRef<HTMLDivElement>(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSaveImage = async () => {
+    if (!captureRef.current) return;
+    try {
+      setIsSaving(true);
+      const canvas = await html2canvas(captureRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#050505',
+      });
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      const link = document.createElement('a');
+      link.download = `Ferrix_BasicResult_${result.id}.jpg`;
+      link.href = dataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error(err);
+      alert('이미지 저장 중 오류가 발생했습니다.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
   return (
     <div className="fade-in" style={{ paddingBottom: '4rem' }}>
       
+      {/* Capture Wrapper */}
+      <div ref={captureRef} style={{ padding: '0 0 1rem 0' }}>
+
       {/* Header Section */}
       <div style={{ 
         textAlign: 'center', 
@@ -170,8 +201,47 @@ export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
         </p>
       </div>
 
-      <button 
-        onClick={onRestart}
+      </div> {/* End Capture Wrapper */}
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
+        <button 
+          onClick={handleSaveImage}
+          disabled={isSaving}
+          style={{
+            width: '100%',
+            padding: '1.3rem',
+            backgroundColor: 'var(--text-primary)',
+            color: 'var(--bg-color)',
+            border: 'none',
+            borderRadius: '12px',
+            fontSize: '1.1rem',
+            fontWeight: 800,
+            transition: 'all 0.2s ease',
+            cursor: isSaving ? 'wait' : 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px'
+          }}
+          onMouseOver={(e) => {
+            if (isSaving) return;
+            e.currentTarget.style.opacity = '0.9';
+            e.currentTarget.style.transform = 'translateY(-2px)';
+          }}
+          onMouseOut={(e) => {
+            if (isSaving) return;
+            e.currentTarget.style.opacity = '1';
+            e.currentTarget.style.transform = 'translateY(0)';
+          }}
+          onMouseDown={(e) => { if (!isSaving) e.currentTarget.style.transform = 'scale(0.98)' }}
+          onMouseUp={(e) => { if (!isSaving) e.currentTarget.style.transform = 'scale(1)' }}
+        >
+          <Download size={20} />
+          {isSaving ? "이미지 변환 중..." : "기본 유형 결과 갤러리에 저장하기"}
+        </button>
+
+        <button 
+          onClick={onRestart}
         style={{
           width: '100%',
           padding: '1.3rem',
@@ -202,6 +272,7 @@ export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
       >
         처음으로 돌아가기
       </button>
+      </div> {/* End Buttons Container */}
 
       <div style={{ 
         padding: '1.5rem', 

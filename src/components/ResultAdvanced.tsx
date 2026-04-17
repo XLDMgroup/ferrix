@@ -1,6 +1,8 @@
-import { Crosshair, Lightbulb, Command, Layers, ShieldX, TrendingUp, Star, CheckCircle } from 'lucide-react';
+import { Crosshair, Lightbulb, Command, Layers, ShieldX, TrendingUp, Star, CheckCircle, Download } from 'lucide-react';
 import { type ResultType, type calculateRank } from '../data';
 import { RadarChartComp } from './RadarChartComp';
+import { useRef, useState } from 'react';
+import html2canvas from 'html2canvas';
 
 interface ResultAdvancedProps {
   result: ResultType;
@@ -12,6 +14,35 @@ const RANK_ORDER = ['D', 'C', 'B', 'A', 'S', 'SSS'];
 
 export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedProps) => {
   const currentRankIdx = RANK_ORDER.indexOf(rankData.rank);
+  const captureRef = useRef<HTMLDivElement>(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSaveImage = async () => {
+    if (!captureRef.current) return;
+    try {
+      setIsSaving(true);
+      // html2canvas 실행
+      const canvas = await html2canvas(captureRef.current, {
+        scale: 2, // 고해상도 지원
+        useCORS: true,
+        backgroundColor: '#050505', // 모노톤 다크 백그라운드 매칭
+      });
+      // 데이터 url 생성 후 jpg 포맷, 0.85 퀄리티 압축
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      // 로컬 다운로드 구동
+      const link = document.createElement('a');
+      link.download = `Ferrix_Result_${rankData.rank}.jpg`;
+      link.href = dataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error(err);
+      alert('이미지 저장 중 오류가 발생했습니다.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   // 세부 스탯 바를 위한 데이터 매핑
   const statLabels: Record<string, string> = {
@@ -32,6 +63,9 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
 
   return (
     <div className="fade-in" style={{ paddingBottom: '4rem', marginTop: '1rem' }}>
+      
+      {/* Capture Wrapper */}
+      <div ref={captureRef} style={{ padding: '0 0 1rem 0' }}>
 
       {/* Label */}
       <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
@@ -464,10 +498,51 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
           {rankData.wantAdvice}
         </p>
       </div>
+      
+      </div> {/* End Capture Wrapper */}
 
-      {/* Final Button */}
-      <button 
-        onClick={onRestart}
+      {/* Buttons Container */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '3rem' }}>
+        {/* Save Image Button */}
+        <button 
+          onClick={handleSaveImage}
+          disabled={isSaving}
+          style={{
+            width: '100%',
+            padding: '1.3rem',
+            backgroundColor: 'transparent',
+            color: 'var(--text-primary)',
+            border: '2px solid var(--text-primary)',
+            borderRadius: '12px',
+            fontSize: '1.1rem',
+            fontWeight: 800,
+            transition: 'all 0.2s ease',
+            cursor: isSaving ? 'wait' : 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px'
+          }}
+          onMouseOver={(e) => {
+            if (isSaving) return;
+            e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)';
+            e.currentTarget.style.transform = 'translateY(-2px)';
+          }}
+          onMouseOut={(e) => {
+            if (isSaving) return;
+            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.transform = 'translateY(0)';
+          }}
+          onMouseDown={(e) => { if (!isSaving) e.currentTarget.style.transform = 'scale(0.98)' }}
+          onMouseUp={(e) => { if (!isSaving) e.currentTarget.style.transform = 'scale(1)' }}
+        >
+          <Download size={20} />
+          {isSaving ? "이미지 변환 중..." : "이 결과를 갤러리에 저장하기 (SNS 공유용)"}
+        </button>
+
+        {/* Final Button */}
+        <button 
+          onClick={onRestart}
         style={{
           width: '100%',
           padding: '1.3rem',
@@ -496,6 +571,7 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
       >
         모든 과정 다시하기
       </button>
+      </div> {/* End Buttons Container */}
     </div>
   );
 };
