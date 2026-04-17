@@ -12,9 +12,10 @@ interface ResultBasicProps {
 export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
   const captureRef = useRef<HTMLDivElement>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [saveCooldown, setSaveCooldown] = useState(false);
 
   const handleSaveImage = async () => {
-    if (!captureRef.current) return;
+    if (!captureRef.current || isSaving || saveCooldown) return; // Rate limiting
     try {
       setIsSaving(true);
       const canvas = await html2canvas(captureRef.current, {
@@ -29,6 +30,9 @@ export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      // 5초 쿨다운 (Rate Limiting)
+      setSaveCooldown(true);
+      setTimeout(() => setSaveCooldown(false), 5000);
     } catch (err) {
       console.error(err);
       alert('이미지 저장 중 오류가 발생했습니다.');
@@ -36,6 +40,7 @@ export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
       setIsSaving(false);
     }
   };
+
   return (
     <div className="fade-in" style={{ paddingBottom: '4rem' }}>
       

@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface QuestionProps {
   title: string;
@@ -14,13 +14,52 @@ interface QuestionProps {
 export const Question = ({ title, question, currentNumber, totalNumber, maxSelect = 2, onAnswer, onPrev }: QuestionProps) => {
   const [selected, setSelected] = useState<number[]>([]);
   const [numberVal, setNumberVal] = useState<string>('');
+  const [numberError, setNumberError] = useState<string>('');
   const progress = (currentNumber / totalNumber) * 100;
+  const lastSubmitTime = useRef<number>(0);
+  const RATE_LIMIT_MS = 800; // 0.8초 안에 중복 제출 방지
+
+  // Rate limit 체크 함수
+  const isRateLimited = () => {
+    const now = Date.now();
+    if (now - lastSubmitTime.current < RATE_LIMIT_MS) return true;
+    lastSubmitTime.current = now;
+    return false;
+  };
+
+  // 나이 입력 컴보 한자 차단: 정수와 소수점만 상태에서 값 업데이트
+  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    // 숫자 외 특수문자 차단 (XSS 방어)
+    const sanitized = raw.replace(/[^0-9]/g, '');
+    setNumberVal(sanitized);
+    setNumberError('');
+  };
+
+  // 나이 제출 검증 (범위: 1~120세)
+  const validateAge = (val: string): boolean => {
+    const num = Number(val);
+    if (!val || isNaN(num)) {
+      setNumberError('숫자를 입력해 주세요.');
+      return false;
+    }
+    if (!Number.isInteger(num)) {
+      setNumberError('정수로 입력해 주세요.');
+      return false;
+    }
+    if (num < 1 || num > 120) {
+      setNumberError('나이는 1~120세 사이여야 합니다.');
+      return false;
+    }
+    return true;
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const toggleOption = (idx: number) => {
+    if (isRateLimited()) return; // Rate limiting
     if (maxSelect === 1) {
       if (question.options[idx].points !== undefined) {
         onAnswer(question.options[idx].points);
@@ -43,6 +82,7 @@ export const Question = ({ title, question, currentNumber, totalNumber, maxSelec
 
   const handleNext = () => {
     if (selected.length === 0) return;
+    if (isRateLimited()) return; // Rate limiting
     
     if (question.options[0].points !== undefined) {
       const aggregated: Record<string, number> = {};
@@ -119,9 +159,12 @@ export const Question = ({ title, question, currentNumber, totalNumber, maxSelec
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
             <input 
               type="number" 
+              inputMode="numeric"
               value={numberVal}
-              onChange={(e) => setNumberVal(e.target.value)}
+              onChange={handleNumberChange}
               placeholder="숫자를 입력하세요 (예: 24)"
+              min={1}
+              max={120}
               autoFocus
               style={{
                 width: '100%',
@@ -130,19 +173,25 @@ export const Question = ({ title, question, currentNumber, totalNumber, maxSelec
                 fontWeight: 800,
                 textAlign: 'center',
                 backgroundColor: 'var(--bg-secondary)',
-                border: '2px solid var(--text-primary)',
+                border: `2px solid ${numberError ? '#e74c3c' : 'var(--text-primary)'}`,
                 borderRadius: '12px',
                 color: 'var(--text-primary)',
                 outline: 'none'
               }}
             />
+            {numberError && (
+              <p style={{ color: '#e74c3c', fontSize: '0.85rem', fontWeight: 600, margin: '0.25rem 0 0 0' }}>
+                {numberError}
+              </p>
+            )}
             <button
               onClick={() => {
-                if (numberVal && !isNaN(Number(numberVal))) {
+                if (isRateLimited()) return;
+                if (validateAge(numberVal)) {
                   onAnswer(Number(numberVal));
                 }
               }}
-              disabled={!numberVal || isNaN(Number(numberVal))}
+              disabled={!numberVal}
               style={{
                 width: '100%',
                 padding: '1.25rem',

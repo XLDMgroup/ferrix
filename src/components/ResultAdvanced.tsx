@@ -16,26 +16,27 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
   const currentRankIdx = RANK_ORDER.indexOf(rankData.rank);
   const captureRef = useRef<HTMLDivElement>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [saveCooldown, setSaveCooldown] = useState(false);
 
   const handleSaveImage = async () => {
-    if (!captureRef.current) return;
+    if (!captureRef.current || isSaving || saveCooldown) return; // Rate limiting
     try {
       setIsSaving(true);
-      // html2canvas 실행
       const canvas = await html2canvas(captureRef.current, {
-        scale: 2, // 고해상도 지원
+        scale: 2,
         useCORS: true,
-        backgroundColor: '#050505', // 모노톤 다크 백그라운드 매칭
+        backgroundColor: '#050505',
       });
-      // 데이터 url 생성 후 jpg 포맷, 0.85 퀄리티 압축
       const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-      // 로컬 다운로드 구동
       const link = document.createElement('a');
       link.download = `Ferrix_Result_${rankData.rank}.jpg`;
       link.href = dataUrl;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      // 5초 쿨다운 (Rate Limiting)
+      setSaveCooldown(true);
+      setTimeout(() => setSaveCooldown(false), 5000);
     } catch (err) {
       console.error(err);
       alert('이미지 저장 중 오류가 발생했습니다.');
@@ -43,6 +44,7 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
       setIsSaving(false);
     }
   };
+
 
   // 세부 스탯 바를 위한 데이터 매핑
   const statLabels: Record<string, string> = {
