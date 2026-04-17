@@ -557,6 +557,9 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
 
       {/* Buttons Container */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '3rem' }}>
+        <p style={{ textAlign: 'center', fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.2rem', wordBreak: 'keep-all' }}>
+          이 충격적인 현실 진단 결과를 친구들과 공유하고 서로의 삶에 대해 논의해 보세요! 
+        </p>
         {/* Save Image Button */}
         <button 
           onClick={handleSaveImage}

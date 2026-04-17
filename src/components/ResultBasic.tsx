@@ -1,4 +1,4 @@
-import { Award, Star, AlertTriangle, Lightbulb, Layers, Command, TrendingUp, Download } from 'lucide-react';
+import { Award, Star, AlertTriangle, Lightbulb, Layers, Command, TrendingUp, Download, Compass, ArrowRight } from 'lucide-react';
 import { type ResultType } from '../data';
 import { RadarChartComp } from './RadarChartComp';
 import { useRef, useState } from 'react';
@@ -203,9 +203,66 @@ export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
         </p>
       </div>
 
+      {/* Instagram Market CTA (Basic) */}
+      <div style={{
+        backgroundColor: 'var(--bg-color)',
+        border: '1px solid var(--text-primary)',
+        borderRadius: '16px',
+        padding: '3rem 2rem',
+        textAlign: 'center',
+        marginBottom: '2rem',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.05)'
+      }}>
+        <div style={{ display: 'inline-flex', padding: '0.8rem', backgroundColor: 'var(--text-primary)', color: 'var(--bg-color)', borderRadius: '50%', marginBottom: '1.5rem' }}>
+          <Compass size={32} />
+        </div>
+        <h3 style={{ fontSize: '1.4rem', fontWeight: 900, color: 'var(--text-primary)', marginBottom: '1rem', letterSpacing: '-0.5px', wordBreak: 'keep-all' }}>
+          이제, 나만의 자기계발 시스템을 가질 차례입니다.
+        </h3>
+        <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '2.5rem', wordBreak: 'keep-all' }}>
+          당신은 '{result.nameKO}' 성향입니다. 타고난 강점과 약점을 알았다면, 이제 의지력에 기대지 않고 환경을 통제할 시스템을 구축해야 합니다.<br /><br />
+          <strong>@ferrixclub</strong>을 팔로우하고 날카로운 인사이트와 함께 자신에게 맞는 시스템을 만들어주는 우리의 여정에 동참하세요.<br />
+          당신은 삶을 성공적으로 이끌 수 있는 완벽한 루틴을 얻어내어, 마침내 원하는 모습의 인생을 쟁취할 수 있게 될 것입니다.
+        </p>
+        <a 
+          href="https://www.instagram.com/ferrixclub/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px',
+            width: '100%',
+            padding: '1.2rem',
+            backgroundColor: 'var(--text-primary)',
+            color: 'var(--bg-color)',
+            borderRadius: '10px',
+            fontSize: '1.1rem',
+            fontWeight: 800,
+            textDecoration: 'none',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.opacity = '0.9';
+            e.currentTarget.style.transform = 'translateY(-2px)';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.opacity = '1';
+            e.currentTarget.style.transform = 'translateY(0)';
+          }}
+        >
+          <ArrowRight size={20} />
+          시스템 구축 여정 시작하기
+        </a>
+      </div>
+
       </div> {/* End Capture Wrapper */}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
+        <p style={{ textAlign: 'center', fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.2rem', wordBreak: 'keep-all' }}>
+          이 결과를 친구들과 공유하고 서로의 성향에 대해 의견을 나눠보세요! 
+        </p>
         <button 
           onClick={handleSaveImage}
           disabled={isSaving}
