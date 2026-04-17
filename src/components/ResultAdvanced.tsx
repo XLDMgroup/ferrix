@@ -111,7 +111,7 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
         <h1 style={{ fontSize: '7rem', fontWeight: 900, lineHeight: 1, margin: '0 0 1rem 0', letterSpacing: '-4px', filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.2))' }}>
           {rankData.rank}
         </h1>
-        <div style={{ backgroundColor: 'rgba(255,255,255,0.12)', display: 'inline-flex', flexDirection: 'column', gap: '4px', padding: '0.75rem 2rem', borderRadius: '40px', marginBottom: '2.5rem', backdropFilter: 'blur(10px)' }}>
+        <div style={{ backgroundColor: 'rgba(255,255,255,0.15)', display: 'inline-flex', flexDirection: 'column', gap: '4px', padding: '0.75rem 2rem', borderRadius: '40px', marginBottom: '2.5rem' }}>
           <p style={{ fontSize: '1.2rem', fontWeight: 800, margin: 0 }}>
             {rankData.desc}
           </p>

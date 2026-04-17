@@ -65,9 +65,11 @@ export const ResultBasic = ({ result, onRestart }: ResultBasicProps) => {
           "{result.coreSentence}"
         </p>
         
-        <div style={{ display: 'inline-flex', alignItems: 'center', marginTop: '2rem', padding: '0.75rem 1.5rem', backgroundColor: 'var(--bg-color)', border: '1px solid var(--border-color)', borderRadius: '30px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
-          <Award size={18} style={{ marginRight: '10px', color: 'var(--text-primary)' }} />
-          <span style={{ fontSize: '0.95rem', color: 'var(--text-primary)', fontWeight: 700 }}>유사한 모델: {result.similarFigures}</span>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+          <div style={{ display: 'flex', width: 'fit-content', alignItems: 'center', padding: '0.75rem 1.5rem', backgroundColor: 'var(--bg-color)', border: '1px solid var(--border-color)', borderRadius: '30px' }}>
+            <Award size={18} style={{ marginRight: '10px', color: 'var(--text-primary)' }} />
+            <span style={{ fontSize: '0.95rem', color: 'var(--text-primary)', fontWeight: 700 }}>유사한 모델: {result.similarFigures}</span>
+          </div>
         </div>
       </div>
 
