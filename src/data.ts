@@ -338,7 +338,7 @@ export const PART1_QUESTIONS = [
       { text: "전체 분량을 파악하고 날짜별로 쪼갠 진도표를 먼저 만든다.", points: { PLANNER: 1 } },
       { text: "하루 날을 잡아 연락을 끊고 한 놈만 팬다는 마인드로 끝낸다.", points: { DEEP_WORKER: 1 } },
       { text: "일단 1강부터 틀고 보며 다른 일을 동시에 진행한다.", points: { ACTION_TAKER: 1 } },
-      { text: "핵람만 골라 듣거나 요약된 핵심 정보를 먼저 파악한다.", points: { OPTIMIZER: 1 } },
+      { text: "핵심만 골라 듣거나 요약된 핵심 정보를 먼저 파악한다.", points: { OPTIMIZER: 1 } },
       { text: "아직 시간이 있다며 미루다가 마감 전날 밤을 새워 처리한다.", points: { SPRINTER: 1 } },
       { text: "이동 시간 등을 활용해 매일 조금씩 나눠서 본다.", points: { ROUTINE_BUILDER: 1 } },
       { text: "내가 할 수 있는 만큼만 하고 나머지는 과감히 포기한다.", points: { COORDINATOR: 1 } },
