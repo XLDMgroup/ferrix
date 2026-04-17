@@ -95,20 +95,3 @@ a {
 .delay-300 { animation-delay: 0.3s; opacity: 0; }
 .delay-400 { animation-delay: 0.4s; opacity: 0; }
 .delay-500 { animation-delay: 0.5s; opacity: 0; }
-
-.global-pc-logo {
-  display: block;
-  position: absolute;
-  top: 30px;
-  left: 30px;
-  width: 80px;
-  height: auto;
-  opacity: 0.8;
-  z-index: 1000;
-}
-
-@media (max-width: 600px) {
-  .global-pc-logo {
-    display: none;
-  }
-}

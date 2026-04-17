@@ -1,4 +1,4 @@
-import { Crosshair, Lightbulb, Command, Layers, ShieldX, TrendingUp, Star, CheckCircle, Download } from 'lucide-react';
+import { Crosshair, Lightbulb, Command, Layers, ShieldX, TrendingUp, Star, CheckCircle, Download, Compass, ArrowRight } from 'lucide-react';
 import { type ResultType, type calculateRank } from '../data';
 import { RadarChartComp } from './RadarChartComp';
 import { useRef, useState } from 'react';
@@ -497,6 +497,60 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
         <p style={{ fontSize: '1rem', lineHeight: 1.7, color: '#e0e0e0', fontWeight: 500, margin: 0 }}>
           {rankData.wantAdvice}
         </p>
+      </div>
+
+      {/* Instagram Market CTA (New) */}
+      <div style={{
+        backgroundColor: 'var(--bg-color)',
+        border: '1px solid var(--text-primary)',
+        borderRadius: '16px',
+        padding: '3rem 2rem',
+        textAlign: 'center',
+        marginBottom: '2rem',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.05)'
+      }}>
+        <div style={{ display: 'inline-flex', padding: '0.8rem', backgroundColor: 'var(--text-primary)', color: 'var(--bg-color)', borderRadius: '50%', marginBottom: '1.5rem' }}>
+          <Compass size={32} />
+        </div>
+        <h3 style={{ fontSize: '1.4rem', fontWeight: 900, color: 'var(--text-primary)', marginBottom: '1rem', letterSpacing: '-0.5px', wordBreak: 'keep-all' }}>
+          이제, 나만의 자기계발 시스템을 가질 차례입니다.
+        </h3>
+        <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '2.5rem', wordBreak: 'keep-all' }}>
+          이런 결과값이 나왔고 당신의 현 상황이 이러니, 의지만으로 삶을 바꾸긴 매우 힘듭니다.<br /><br />
+          <strong>@ferrixclub</strong>을 팔로우하고 날카로운 인사이트와 함께 자신에게 맞는 시스템을 만들어주는 우리의 여정에 동참하세요.<br />
+          당신은 삶을 성공적으로 이끌 수 있는 완벽한 루틴을 얻어내어, 마침내 원하는 모습의 인생을 쟁취할 수 있게 될 것입니다.
+        </p>
+        <a 
+          href="https://www.instagram.com/ferrixclub/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px',
+            width: '100%',
+            padding: '1.2rem',
+            backgroundColor: 'var(--text-primary)',
+            color: 'var(--bg-color)',
+            borderRadius: '10px',
+            fontSize: '1.1rem',
+            fontWeight: 800,
+            textDecoration: 'none',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.opacity = '0.9';
+            e.currentTarget.style.transform = 'translateY(-2px)';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.opacity = '1';
+            e.currentTarget.style.transform = 'translateY(0)';
+          }}
+        >
+          <ArrowRight size={20} />
+          시스템 구축 여정 시작하기
+        </a>
       </div>
       
       </div> {/* End Capture Wrapper */}
