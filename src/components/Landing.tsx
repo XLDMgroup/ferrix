@@ -16,7 +16,7 @@ export const Landing = ({ onStart }: LandingProps) => {
           wordBreak: 'keep-all'
         }}>
           문제는 의지가 아니라<br />
-          <span style={{ color: 'var(--text-secondary)' }}>시스템이다.</span>
+          <span style={{ color: '#0057aa' }}>시스템이다.</span>
         </h1>
         <p style={{ fontSize: '1.1rem', color: 'var(--text-tertiary)', lineHeight: 1.5, wordBreak: 'keep-all', fontWeight: 500 }}>
           당신에게 맞는 객관적인 자기관리 방식을 찾아드립니다.
