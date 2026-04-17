@@ -491,7 +491,7 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
         borderRadius: '0 12px 12px 0'
       }}>
         <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fff', marginBottom: '1rem', letterSpacing: '0px' }}>
-          당신의 궁극적 지향점에 대한 Ferrix의 마지막 직언
+          당신의 궁극적 지향점에 대한 조언
         </h3>
         {/* @ts-ignore */}
         <p style={{ fontSize: '1rem', lineHeight: 1.7, color: '#e0e0e0', fontWeight: 500, margin: 0 }}>
@@ -537,7 +537,7 @@ export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedPr
           onMouseUp={(e) => { if (!isSaving) e.currentTarget.style.transform = 'scale(1)' }}
         >
           <Download size={20} />
-          {isSaving ? "이미지 변환 중..." : "이 결과를 갤러리에 저장하기 (SNS 공유용)"}
+          {isSaving ? "이미지 변환 중..." : "이 결과를 갤러리에 저장하기"}
         </button>
 
         {/* Final Button */}

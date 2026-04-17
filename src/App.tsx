@@ -93,6 +93,7 @@ function App() {
 
   return (
     <div className="app-container">
+      {step !== 'landing' && <img src="/logo.png" className="global-pc-logo" alt="Ferrix Test" />}
       {step === 'landing' && <Landing onStart={startTest} />}
       
       {step === 'part1' && (
