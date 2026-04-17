@@ -10,15 +10,6 @@ interface ResultAdvancedProps {
 
 const RANK_ORDER = ['D', 'C', 'B', 'A', 'S', 'SSS'];
 
-const RANK_LABELS: Record<string, string> = {
-  D: '기초',
-  C: '표준',
-  B: '잠재력',
-  A: '우수',
-  S: '상위 1%',
-  SSS: '최상위',
-};
-
 export const ResultAdvanced = ({ result, rankData, onRestart }: ResultAdvancedProps) => {
   const currentRankIdx = RANK_ORDER.indexOf(rankData.rank);
 
